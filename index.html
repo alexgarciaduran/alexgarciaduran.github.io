@@ -214,15 +214,17 @@ nav {
 }
 .pc-links a:hover { opacity: 0.6; }
 
-/* full-width figure below the text */
+/* figure below the text — capped width so it stays modest */
 .proj-fig {
   border-top: 0.5px solid var(--border);
   background: #fafafa;            /* light surface for the research figures */
-  padding: 28px 32px 22px;
+  padding: 24px 32px 18px;
   text-align: center;
 }
 .proj-fig img { width: 100%; height: auto; display: block; margin: 0 auto; }
-.proj-fig.fig-narrow img { max-width: 560px; }   /* cap near-square figures */
+.proj-fig.fig-wide   img { max-width: 680px; }   /* wide pipeline figure */
+.proj-fig.fig-medium img { max-width: 480px; }   /* landscape figures */
+.proj-fig.fig-narrow img { max-width: 420px; }   /* near-square / tall figures */
 .fig-cap {
   margin-top: 16px;
   font-size: 8px; letter-spacing: 0.14em; color: #8c8aa0; line-height: 1.6;
@@ -344,8 +346,8 @@ footer {
         <div class="pc-top"><span class="pc-year">2026</span></div>
         <div class="pc-title">Adversarial robustness of a connectome-constrained vision network</div>
         <div class="pc-desc">
-          A deep network whose connectivity is fixed by the <em>Drosophila</em> connectome (Lappalainen et al. 2024)
-          modelling the fly's motion-detection circuit, is benchmarked against CNN and
+          A deep network whose connectivity is fixed by the <em>Drosophila</em> connectome —
+          modelling the fly's motion-detection circuit (T4/T5) — is benchmarked against CNN and
           optical-flow (RAFT) baselines on collision detection. Using differentiable 3D adversarial
           textures, we probe whether wiring the brain's actual circuit into the network buys robustness,
           and find the disruptions caused by adversarial attacks are similar to those produced by
@@ -361,7 +363,7 @@ footer {
           <a href="projects.html">Write-up →</a>
         </div>
       </div>
-      <div class="proj-fig">
+      <div class="proj-fig fig-wide">
         <img src="figures/figure1_fly.png" alt="Differentiable adversarial-texture pipeline, fly looming geometry, and hit/miss trajectories">
         <div class="fig-cap">DIFFERENTIABLE TEXTURE→RENDER→VISION→MODEL→DECODER PIPELINE · LOOMING GEOMETRY · HIT / MISS TRAJECTORIES</div>
       </div>
@@ -387,7 +389,7 @@ footer {
           <a href="https://github.com/alexgarciaduran/perceptual_bistability">Code ↗</a>
         </div>
       </div>
-      <div class="proj-fig">
+      <div class="proj-fig fig-medium">
         <img src="figures/global_representation_stim_induced.png" alt="Hierarchical generative model: stimulus, local representation, stimulus-induced coupling, and global interpretation">
         <div class="fig-cap">HIERARCHICAL GENERATIVE MODEL · STIMULUS-INDUCED LATERAL COUPLING SHAPES THE GLOBAL INTERPRETATION</div>
       </div>

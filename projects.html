@@ -428,9 +428,10 @@ pgd_acc  = accuracy_under_attack(model, test, pgd,
       </div>
       <p class="result-cap">
         <strong>What the attack actually does.</strong> Top: clean test digits (true label in green).
-        Middle: the perturbation δ found by PGD (red/blue ≈ ±0.3 per pixel). Bottom: the adversarial
-        image x + δ — visually still the same digit to a human, but the model now reads it as the pink
-        label. The perturbation is structured, not random: it traces the strokes that most change the decision.
+        Middle: the perturbation δ found by PGD at a small budget (ε = 0.15, red/blue ≈ ±0.15 per pixel).
+        Bottom: the adversarial image x + δ — visually still the same digit to a human, but the model now
+        reads it as the pink label. The perturbation is structured, not random: it traces the strokes that
+        most change the decision.
       </p>
 
       <div class="callout">
