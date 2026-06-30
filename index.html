@@ -77,11 +77,23 @@ nav {
   font-size: 10px; letter-spacing: 0.28em;
   color: var(--accent); margin-bottom: 28px;
 }
+.hero-head {
+  display: flex; align-items: center; gap: 28px;
+  margin-bottom: 40px;
+}
+.hero-photo {
+  flex-shrink: 0;
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 0.5px solid var(--border);
+  background: var(--bg2);   /* placeholder tint until the image loads */
+}
 .hero-name {
   font-family: var(--serif);
-  font-size: clamp(60px, 9vw, 130px);
-  font-weight: 400; line-height: 0.95;
-  color: var(--fg); margin-bottom: 40px;
+  font-size: clamp(34px, 4.5vw, 58px);
+  font-weight: 400; line-height: 1.0;
+  color: var(--fg); margin: 0;
 }
 .hero-name em { font-style: italic; color: var(--fg2); }
 .hero-tagline {
@@ -263,6 +275,8 @@ footer {
   .nav-links { gap: 20px; }
   #hero { padding: 0 6vw; }
   .hero-scroll { left: 6vw; }
+  .hero-head { gap: 18px; }
+  .hero-photo { width: 72px; height: 72px; }
   .section-wrap { padding: 0 24px; }
   .about-grid { grid-template-columns: 1fr; gap: 56px; }
   .project-row { grid-template-columns: 1fr; gap: 8px; }
@@ -288,7 +302,10 @@ footer {
 <section id="hero">
   <canvas id="hero-canvas"></canvas>
   <div class="hero-inner">
-    <h1 class="hero-name">Alexandre<br><em>Garcia-Duran</em></h1>
+    <div class="hero-head">
+      <img class="hero-photo" src="figures/profile.jpg" alt="Alexandre Garcia-Duran">
+      <h1 class="hero-name">Alexandre<br><em>Garcia-Duran</em></h1>
+    </div>
     <p class="hero-tagline">
       I work at the intersection of <strong>machine learning</strong> and<br>
       <strong>computational neuroscience</strong>.<br>
@@ -320,7 +337,7 @@ footer {
           reveals about the computations they actually perform.
         </p>
         <p>
-          Currently a PhD researcher at <strong>Centre de Recerca Matemàtica</strong> and <strong>Universitat Politècnica de Catalunya</strong>, Barcelona.
+          Currently a PhD researcher at <strong>Centre de Recerca Matemàtica (CRM)</strong> and <strong>Universitat Politècnica de Catalunya (UPC)	 	  </strong>, Barcelona.
         </p>
       </div>
       <div class="about-aside">
