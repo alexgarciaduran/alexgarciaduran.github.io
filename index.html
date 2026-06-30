@@ -188,8 +188,6 @@ nav {
 
 /* ── Project cards (with figures) ── */
 .proj-card {
-  display: grid; grid-template-columns: 1fr 380px;
-  gap: 0;
   border: 0.5px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
@@ -198,12 +196,12 @@ nav {
   transition: border-color 0.2s;
 }
 .proj-card:hover { border-color: rgba(255,255,255,0.16); }
-.proj-card-body { padding: 32px 36px; }
+.proj-card-body { padding: 32px 36px 28px; }
 .pc-top { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; }
 .pc-year { font-size: 10px; color: var(--fg3); letter-spacing: 0.06em; }
-.pc-title { font-family: var(--serif); font-size: 21px; color: var(--fg); line-height: 1.15; margin-bottom: 12px; }
-.pc-desc { font-size: 12px; color: var(--fg2); line-height: 1.8; }
-.pc-tags { display: flex; gap: 6px; margin-top: 16px; flex-wrap: wrap; }
+.pc-title { font-family: var(--serif); font-size: 22px; color: var(--fg); line-height: 1.15; margin-bottom: 12px; }
+.pc-desc { font-size: 13px; color: var(--fg2); line-height: 1.85; max-width: 720px; }
+.pc-tags { display: flex; gap: 6px; margin-top: 18px; flex-wrap: wrap; }
 .pc-tag {
   font-size: 8px; letter-spacing: 0.1em;
   padding: 2px 8px; border-radius: 99px;
@@ -215,20 +213,20 @@ nav {
   white-space: nowrap; transition: opacity 0.2s;
 }
 .pc-links a:hover { opacity: 0.6; }
+
+/* full-width figure below the text */
 .proj-fig {
-  border-left: 0.5px solid var(--border);
-  background: var(--bg);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 28px 24px 20px;
-  min-height: 240px;
+  border-top: 0.5px solid var(--border);
+  background: #fafafa;            /* light surface for the research figures */
+  padding: 28px 32px 22px;
+  text-align: center;
 }
-.proj-fig svg { width: 100%; height: auto; display: block; }
+.proj-fig img { width: 100%; height: auto; display: block; margin: 0 auto; }
+.proj-fig.fig-narrow img { max-width: 560px; }   /* cap near-square figures */
 .fig-cap {
   margin-top: 16px;
-  text-align: center;
-  font-size: 8px; letter-spacing: 0.14em; color: var(--fg3); line-height: 1.6;
+  font-size: 8px; letter-spacing: 0.14em; color: #8c8aa0; line-height: 1.6;
 }
-.proj-fig-wrap { width: 100%; }
 
 .projects-more {
   margin-top: 56px;
@@ -267,8 +265,7 @@ footer {
   .about-grid { grid-template-columns: 1fr; gap: 56px; }
   .project-row { grid-template-columns: 1fr; gap: 8px; }
   .p-links { margin-top: 8px; }
-  .proj-card { grid-template-columns: 1fr; }
-  .proj-fig { border-left: none; border-top: 0.5px solid var(--border); min-height: 200px; }
+  .proj-fig { padding: 20px 16px 16px; }
   footer { padding: 40px 24px; }
 }
 </style>
@@ -365,51 +362,8 @@ footer {
         </div>
       </div>
       <div class="proj-fig">
-        <div class="proj-fig-wrap">
-          <svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Adversarial perturbation of a connectome network">
-            <!-- hex column cluster (T4/T5 retinotopic columns) -->
-            <g stroke="#4e4c62" stroke-width="0.7" fill="none" opacity="0.45">
-              <polygon points="48,98 55,102 55,110 48,114 41,110 41,102"/>
-              <polygon points="48,114 55,118 55,126 48,130 41,126 41,118"/>
-              <polygon points="60,106 67,110 67,118 60,122 53,118 53,110"/>
-              <polygon points="36,106 43,110 43,118 36,122 29,118 29,110"/>
-              <polygon points="60,90 67,94 67,102 60,106 53,102 53,94"/>
-              <polygon points="36,90 43,94 43,102 36,106 29,102 29,94"/>
-            </g>
-            <!-- clean input label -->
-            <text x="48" y="146" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="#00dcaa">x</text>
-            <!-- perturbation -->
-            <text x="92" y="124" text-anchor="middle" font-family="Space Mono, monospace" font-size="13" fill="#f0207c">+ δ</text>
-            <!-- adversarial input node -->
-            <circle cx="138" cy="120" r="18" fill="none" stroke="#f0207c" stroke-width="1.2"/>
-            <text x="138" y="124" text-anchor="middle" font-family="Space Mono, monospace" font-size="8" fill="#f0207c">x+δ</text>
-            <!-- arrow into network -->
-            <line x1="160" y1="120" x2="196" y2="120" stroke="#8c8aa0" stroke-width="1"/>
-            <polygon points="196,120 189,116 189,124" fill="#8c8aa0"/>
-            <!-- connectome graph (fixed wiring) -->
-            <g stroke="#4e4c62" stroke-width="0.7" opacity="0.8">
-              <line x1="232" y1="70" x2="286" y2="100"/>
-              <line x1="232" y1="70" x2="286" y2="150"/>
-              <line x1="232" y1="120" x2="286" y2="100"/>
-              <line x1="232" y1="120" x2="286" y2="150"/>
-              <line x1="232" y1="170" x2="286" y2="150"/>
-              <line x1="232" y1="170" x2="286" y2="100"/>
-              <line x1="286" y1="100" x2="326" y2="120"/>
-              <line x1="286" y1="150" x2="326" y2="120"/>
-            </g>
-            <g>
-              <circle cx="232" cy="70"  r="6" fill="#0d0d18" stroke="#8c8aa0" stroke-width="1"/>
-              <circle cx="232" cy="120" r="6" fill="#0d0d18" stroke="#8c8aa0" stroke-width="1"/>
-              <circle cx="232" cy="170" r="6" fill="#0d0d18" stroke="#8c8aa0" stroke-width="1"/>
-              <circle cx="286" cy="100" r="6" fill="#0d0d18" stroke="#f0207c" stroke-width="1.3"/>
-              <circle cx="286" cy="150" r="6" fill="#0d0d18" stroke="#8c8aa0" stroke-width="1"/>
-              <circle cx="326" cy="120" r="7" fill="#0d0d18" stroke="#00dcaa" stroke-width="1.3"/>
-            </g>
-            <text x="326" y="146" text-anchor="middle" font-family="Space Mono, monospace" font-size="7" fill="#8c8aa0">p(hit)</text>
-            <text x="232" y="200" text-anchor="middle" font-family="Space Mono, monospace" font-size="7" fill="#4e4c62" letter-spacing="1">FIXED CONNECTOME</text>
-          </svg>
-          <div class="fig-cap">PERTURBED INPUT → CONNECTOME-WIRED NETWORK → COLLISION ESTIMATE</div>
-        </div>
+        <img src="figures/figure1_fly.png" alt="Differentiable adversarial-texture pipeline, fly looming geometry, and hit/miss trajectories">
+        <div class="fig-cap">DIFFERENTIABLE TEXTURE→RENDER→VISION→MODEL→DECODER PIPELINE · LOOMING GEOMETRY · HIT / MISS TRAJECTORIES</div>
       </div>
     </div>
 
@@ -434,28 +388,8 @@ footer {
         </div>
       </div>
       <div class="proj-fig">
-        <div class="proj-fig-wrap">
-          <svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bistable double-well potential and perceptual alternation">
-            <!-- double-well potential -->
-            <path d="M 30 60 C 70 55, 80 130, 110 130 C 140 130, 150 55, 180 90 C 210 55, 220 130, 250 130 C 280 130, 290 55, 330 60"
-                  fill="none" stroke="#4e4c62" stroke-width="1.2"/>
-            <!-- two stable states -->
-            <circle cx="110" cy="130" r="6" fill="#00dcaa"/>
-            <circle cx="250" cy="130" r="6" fill="#f0207c"/>
-            <text x="110" y="152" text-anchor="middle" font-family="Space Mono, monospace" font-size="8" fill="#00dcaa">q ≈ 1</text>
-            <text x="250" y="152" text-anchor="middle" font-family="Space Mono, monospace" font-size="8" fill="#f0207c">q ≈ 0</text>
-            <text x="180" y="50" text-anchor="middle" font-family="Space Mono, monospace" font-size="7" fill="#4e4c62" letter-spacing="1">PITCHFORK SYMMETRY</text>
-
-            <!-- alternation time series -->
-            <line x1="30" y1="200" x2="330" y2="200" stroke="#4e4c62" stroke-width="0.6"/>
-            <polyline points="30,178 70,178 70,222 120,222 120,178 175,178 175,222 235,222 235,178 290,178 290,222 330,222"
-                      fill="none" stroke="#8c8aa0" stroke-width="1.4"/>
-            <text x="30" y="172" font-family="Space Mono, monospace" font-size="7" fill="#00dcaa">percept A</text>
-            <text x="285" y="234" font-family="Space Mono, monospace" font-size="7" fill="#f0207c">percept B</text>
-            <text x="330" y="214" text-anchor="end" font-family="Space Mono, monospace" font-size="7" fill="#4e4c62">time →</text>
-          </svg>
-          <div class="fig-cap">DOUBLE-WELL ENERGY → SPONTANEOUS PERCEPTUAL ALTERNATION</div>
-        </div>
+        <img src="figures/global_representation_stim_induced.png" alt="Hierarchical generative model: stimulus, local representation, stimulus-induced coupling, and global interpretation">
+        <div class="fig-cap">HIERARCHICAL GENERATIVE MODEL · STIMULUS-INDUCED LATERAL COUPLING SHAPES THE GLOBAL INTERPRETATION</div>
       </div>
     </div>
 
@@ -480,34 +414,14 @@ footer {
           <a href="https://github.com/alexgarciaduran/rapid-updating-of-movement-by-evidence">Code ↗</a>
         </div>
       </div>
-      <div class="proj-fig">
-        <div class="proj-fig-wrap">
-          <svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Evidence accumulation to a decision bound">
-            <!-- bounds -->
-            <line x1="30" y1="40"  x2="330" y2="40"  stroke="#00dcaa" stroke-width="1" stroke-dasharray="4 4"/>
-            <line x1="30" y1="200" x2="330" y2="200" stroke="#f0207c" stroke-width="1" stroke-dasharray="4 4"/>
-            <text x="326" y="34"  text-anchor="end" font-family="Space Mono, monospace" font-size="7" fill="#00dcaa">bound +</text>
-            <text x="326" y="214" text-anchor="end" font-family="Space Mono, monospace" font-size="7" fill="#f0207c">bound −</text>
-            <!-- midline -->
-            <line x1="30" y1="120" x2="330" y2="120" stroke="#4e4c62" stroke-width="0.5"/>
-            <!-- noisy accumulation traces -->
-            <polyline points="30,120 55,112 75,124 98,104 120,110 145,92 168,98 190,78 215,84 240,60 262,66 288,46 305,42"
-                      fill="none" stroke="#8c8aa0" stroke-width="1.3"/>
-            <polyline points="30,120 52,128 78,118 100,132 126,126 150,140 174,134 200,150 224,144 250,162 276,156 300,172 320,176"
-                      fill="none" stroke="#4e4c62" stroke-width="1"/>
-            <polyline points="30,120 56,116 80,126 104,114 130,122 156,114 182,124 206,116 232,126 258,118 284,128 310,122 330,126"
-                      fill="none" stroke="#4e4c62" stroke-width="0.8" opacity="0.6"/>
-            <!-- decision point -->
-            <circle cx="305" cy="42" r="4" fill="#00dcaa"/>
-            <text x="180" y="232" text-anchor="middle" font-family="Space Mono, monospace" font-size="7" fill="#4e4c62" letter-spacing="1">EVIDENCE ACCUMULATED OVER TIME →</text>
-          </svg>
-          <div class="fig-cap">DRIFT-DIFFUSION: NOISY ACCUMULATION TO A DECISION BOUND</div>
-        </div>
+      <div class="proj-fig fig-narrow">
+        <img src="figures/figure_movement.png" alt="Decision variable and motor trajectory model with change-of-mind, and neural-density-estimator likelihood">
+        <div class="fig-cap">DECISION VARIABLE + MOTOR TRAJECTORY WITH CHANGE-OF-MIND · SIMULATION-BASED INFERENCE OF THE LIKELIHOOD</div>
       </div>
     </div>
 
     <div class="projects-more">
-      <a href="projects.html"><span class="arr">→</span> see ML projects & code</a>
+      <a href="projects.html"><span class="arr">→</span> see toy ML projects & code</a>
     </div>
 
   </div>
