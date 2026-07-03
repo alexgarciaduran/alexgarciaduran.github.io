@@ -325,12 +325,12 @@ footer {
     <div class="about-grid">
       <div class="about-body">
         <p>
-          I build and study <strong>machine learning models</strong> of how neural systems
+          I use <strong>machine learning models</strong> to study how neural systems
           perceive — bridging <strong>computational neuroscience</strong> and
           modern deep learning.
         </p>
         <p>
-          My work spans probabilistic graphical models, recurrent neural networks, and
+          My work spans probabilistic graphical models, recurrent and convolutional neural networks, and
           biologically constrained vision models, with a recent focus on
           <strong>adversarial robustness</strong>: What breaks these networks, and what that
           reveals about the computations they actually perform.
@@ -363,7 +363,7 @@ footer {
         <div class="pc-desc">
           A deep network whose connectivity is fixed by the <em>Drosophila</em> connectome (Lappalainen et al. 2024)
           modelling the fly's motion-detection circuit, is benchmarked against CNN and
-          optical-flow (RAFT) baselines on collision detection. Using differentiable 3D rendering
+          optical-flow (RAFT) baselines on collision detection. Using a differentiable 3D rendering
           pipeline, we probe whether wiring the brain's actual circuit into the network buys robustness,
           and find the disruptions caused by adversarial attacks are similar to those produced by
           classic reverse-phi motion illusions.
@@ -392,8 +392,11 @@ footer {
         <div class="pc-desc">
           When a stimulus is ambiguous — a rotating cylinder, a Necker cube — perception spontaneously
           alternates between two interpretations. We model this as inference over a probabilistic graphical
-          model with lateral coupling, implemented as a continuous-time RNN. Lateral interactions play an
-	  important role in representing the statistical associations of the world.
+          model with lateral coupling, implemented as a continuous-time RNN. We propose that lateral interactions in
+	  the visual hierarchy are dynamically modulated by features of the stimulus, so that normative
+          computations such as explaining away can be performed. Bistable perception, in this view, arises when these
+	  lateral interactions become very strong. This highlights their role in representing the statistical
+	  associations of the world.
         </div>
         <div class="pc-tags">
           <span class="pc-tag">PROBABILISTIC GRAPHICAL MODELS</span>
