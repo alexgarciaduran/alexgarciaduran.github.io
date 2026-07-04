@@ -324,6 +324,9 @@ footer {
       </div>
 
       <p class="proj-sub">Implementation</p>
+      <p>
+	Defining the functions that we'll use.
+      </p>
 
       <div class="code-wrap">
         <div class="code-bar">
@@ -360,6 +363,9 @@ footer {
       </div>
 
       <p class="proj-sub">The network under attack</p>
+      <p>
+	Defining the network that we will study/attack. It's small (2 conv layerrs + linear head).
+      </p>
 
       <div class="code-wrap">
         <div class="code-bar">
@@ -368,7 +374,7 @@ footer {
         </div>
 <pre><span class="k">import</span> torch.nn <span class="k">as</span> nn
 
-<span class="c"># deliberately small: two conv layers + a linear head</span>
+<span class="c"># deliberately small: two conv layers + a linear head so that it can be run in CPU</span>
 <span class="k">class</span> <span class="f">SmallNet</span>(nn.Module):
     <span class="k">def</span> <span class="f">__init__</span>(self):
         <span class="f">super</span>().__init__()
