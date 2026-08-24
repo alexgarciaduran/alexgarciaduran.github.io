@@ -3,287 +3,201 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Alexandre Garcia-Duran — computational neuroscience, machine learning, and perceptual inference.">
+<meta name="description" content="Alexandre Garcia-Duran — PhD student in computational neuroscience and machine learning at CRM & UPC, Barcelona.">
 <title>Alexandre Garcia-Duran</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz@0,6..72;1,6..72&display=swap" rel="stylesheet">
 <style>
 /* ── Reset ── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
 :root {
-  --bg:      #09090f;
-  --bg2:     #0d0d18;
-  --bg3:     #111120;
-  --fg:      #e6e3da;
-  --fg2:     #8c8aa0;
-  --fg3:     #4e4c62;
-  --accent:  #00dcaa;
-  --accent2: #f0207c;
-  --border:  rgba(255,255,255,0.07);
-  --serif:   'DM Serif Display', serif;
-  --mono:    'Space Mono', monospace;
-  --max:     1080px;
+  --bg:      #ffffff;
+  --bg2:     #f6f6f4;
+  --fg:      #1a1a1a;
+  --fg2:     #565660;
+  --fg3:     #8a8a94;
+  --accent:  #3a5bd9;
+  --border:  #e7e7e2;
+  --sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --serif:   'Newsreader', Georgia, serif;
+  --max:     720px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:     #0f0f12;
+    --bg2:    #17171b;
+    --fg:     #ececec;
+    --fg2:    #a5a5b0;
+    --fg3:    #6e6e78;
+    --accent: #8ea2ff;
+    --border: #26262c;
+  }
 }
 
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--mono);
-  font-size: 13px;
-  line-height: 1.75;
-  overflow-x: hidden;
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
 }
 
-a { color: inherit; text-decoration: none; }
-strong { font-weight: 700; color: var(--fg); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+strong { font-weight: 600; color: var(--fg); }
+em { font-style: italic; }
 
 /* ── Nav ── */
 nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  position: sticky; top: 0; z-index: 100;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: var(--max); margin: 0 auto;
+  padding: 14px 28px;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 48px;
-  background: rgba(9,9,15,0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 0.5px solid var(--border);
+  gap: 20px; flex-wrap: wrap;
 }
-.nav-brand {
-  font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
-  color: var(--fg);
-}
-.nav-links { display: flex; gap: 36px; }
+.nav-brand { font-weight: 600; color: var(--fg); font-size: 15px; letter-spacing: -0.01em; }
+.nav-brand:hover { text-decoration: none; }
+.nav-links { display: flex; gap: 20px; flex-wrap: wrap; }
 .nav-links a {
-  font-size: 10px; letter-spacing: 0.16em; color: var(--fg3);
-  transition: color 0.2s;
+  font-size: 13.5px; color: var(--fg2); font-weight: 500;
 }
-.nav-links a:hover { color: var(--fg); }
+.nav-links a:hover { color: var(--accent); text-decoration: none; }
 
-/* ── Hero ── */
-#hero {
-  position: relative; height: 100vh; min-height: 640px;
-  display: flex; align-items: center;
-  padding: 0 10vw;
-  overflow: hidden;
-}
-#hero-canvas {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-}
-.hero-inner { position: relative; z-index: 1; }
-.hero-label {
-  font-size: 10px; letter-spacing: 0.28em;
-  color: var(--accent); margin-bottom: 28px;
-}
-.hero-head {
-  display: flex; align-items: center; gap: 28px;
-  margin-bottom: 40px;
+/* ── Layout ── */
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 28px; }
+
+/* ── Header / hero ── */
+header { padding: 72px 0 8px; }
+.hero {
+  display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
 }
 .hero-photo {
-  flex-shrink: 0;
-  width: 96px; height: 96px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 0.5px solid var(--border);
-  background: var(--bg2);   /* placeholder tint until the image loads */
+  width: 116px; height: 116px; border-radius: 50%;
+  object-fit: cover; flex-shrink: 0;
+  border: 1px solid var(--border);
+  background: var(--bg2);
 }
 .hero-name {
   font-family: var(--serif);
-  font-size: clamp(34px, 4.5vw, 58px);
-  font-weight: 400; line-height: 1.0;
-  color: var(--fg); margin: 0;
+  font-size: 34px; font-weight: 500; line-height: 1.1;
+  letter-spacing: -0.015em; margin-bottom: 8px;
 }
-.hero-name em { font-style: italic; color: var(--fg2); }
-.hero-tagline {
-  font-size: 12px; color: var(--fg2); line-height: 1.9;
-  max-width: 420px; margin-bottom: 52px;
+.hero-affil { font-size: 15px; color: var(--fg2); line-height: 1.6; }
+.hero-role { font-size: 14px; color: var(--fg3); margin-top: 2px; }
+
+/* inline link row */
+.linkrow {
+  display: flex; flex-wrap: wrap; gap: 8px 10px;
+  margin: 28px 0 8px;
 }
-.hero-cta { display: flex; gap: 28px; flex-wrap: wrap; }
-.hero-cta a {
-  font-size: 10px; letter-spacing: 0.14em; color: var(--fg3);
-  display: flex; align-items: center; gap: 8px;
-  transition: color 0.2s;
+.linkrow a {
+  font-size: 13.5px; font-weight: 500;
+  color: var(--fg2);
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 6px 14px;
+  transition: border-color .15s, color .15s, background .15s;
 }
-.hero-cta a .arr { color: var(--accent); }
-.hero-cta a:hover { color: var(--fg); }
-.hero-scroll {
-  position: absolute; bottom: 36px; left: 10vw;
-  font-size: 9px; letter-spacing: 0.18em; color: var(--fg3);
-  display: flex; align-items: center; gap: 14px;
-  animation: fadeup 1s 1.2s both;
-}
-.hero-scroll::before {
-  content: ''; display: block;
-  width: 40px; height: 0.5px; background: var(--fg3);
-}
-@keyframes fadeup {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: none; }
+.linkrow a:hover {
+  color: var(--accent); border-color: var(--accent);
+  text-decoration: none;
 }
 
-/* ── Section common ── */
-.section-wrap { max-width: var(--max); margin: 0 auto; padding: 0 48px; }
+/* ── Sections ── */
+section { padding: 44px 0; border-top: 1px solid var(--border); scroll-margin-top: 64px; }
+section:first-of-type { border-top: none; }
+.section-title {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--fg3);
+  margin-bottom: 22px;
+}
+.summary p { color: var(--fg2); margin-bottom: 16px; font-size: 16px; }
+.summary p:last-child { margin-bottom: 0; }
 
-.section-tag {
-  font-size: 9px; letter-spacing: 0.28em; color: var(--fg3);
-  display: flex; align-items: center; gap: 16px;
-  margin-bottom: 64px;
+/* ── Projects ── */
+.project {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
 }
-.section-tag::after {
-  content: ''; flex: 1; height: 0.5px; background: var(--border);
+.project:first-child { padding-top: 0; }
+.project:last-child { border-bottom: none; padding-bottom: 0; }
+.project-year { font-size: 13px; color: var(--fg3); margin-bottom: 4px; }
+.project-title {
+  font-family: var(--serif); font-size: 21px; font-weight: 500;
+  line-height: 1.25; letter-spacing: -0.01em; margin-bottom: 10px;
+  color: var(--fg);
+}
+.project-desc { font-size: 15px; color: var(--fg2); line-height: 1.7; margin-bottom: 14px; }
+.project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.project-tag {
+  font-size: 11px; letter-spacing: 0.04em; color: var(--fg3);
+  background: var(--bg2); border-radius: 5px; padding: 3px 9px;
+}
+.project-links { display: flex; flex-wrap: wrap; gap: 18px; }
+.project-links a { font-size: 14px; font-weight: 500; }
+.project-links a.feature {
+  display: inline-flex; align-items: center; gap: 7px;
 }
 
-/* ── About ── */
-#about { padding: 140px 0 120px; }
-
-.about-grid {
-  display: grid; grid-template-columns: 5fr 3fr; gap: 100px;
-  align-items: start;
+/* project figure */
+.project-fig {
+  margin-top: 20px;
+  border: 1px solid var(--border); border-radius: 10px;
+  overflow: hidden; background: #fff;
 }
-.about-body p {
-  font-size: 14px; color: var(--fg2); line-height: 1.9;
-  margin-bottom: 20px;
-}
-.about-body p:last-child { margin-bottom: 0; }
-
-.about-aside { padding-top: 6px; }
-
-.about-links { display: flex; flex-direction: column; gap: 10px; }
-.about-links a {
-  font-size: 10px; letter-spacing: 0.1em; color: var(--fg3);
-  display: flex; align-items: center; gap: 10px;
-  transition: color 0.2s;
-}
-.about-links a::before { content: '↗'; color: var(--accent); font-size: 11px; }
-.about-links a:hover { color: var(--fg); }
-
-/* ── Projects (preview on home) ── */
-#projects { padding: 80px 0 120px; scroll-margin-top: 64px; }
-#about { scroll-margin-top: 64px; }
-
-.sub-label {
-  font-size: 9px; letter-spacing: 0.22em; color: var(--fg3);
-  margin-bottom: 24px; padding-bottom: 12px;
-  border-bottom: 0.5px solid var(--border);
-}
-.projects-sub { margin-bottom: 72px; }
-.projects-sub:last-child { margin-bottom: 0; }
-
-.project-list { display: flex; flex-direction: column; }
-.project-row {
-  display: grid; grid-template-columns: 64px 1fr auto;
-  gap: 0 40px; align-items: baseline;
-  padding: 22px 0;
-  border-bottom: 0.5px solid var(--border);
-  transition: background 0.15s;
-  cursor: default;
-}
-.project-row:first-child { border-top: 0.5px solid var(--border); }
-.project-row:hover { background: rgba(255,255,255,0.02); margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
-
-.p-year { font-size: 10px; color: var(--fg3); letter-spacing: 0.06em; padding-top: 2px; }
-.p-title { font-family: var(--serif); font-size: 18px; color: var(--fg); line-height: 1.2; margin-bottom: 6px; }
-.p-desc { font-size: 11px; color: var(--fg2); line-height: 1.7; max-width: 580px; }
-.p-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-.p-tag {
-  font-size: 8px; letter-spacing: 0.1em;
-  padding: 2px 8px; border-radius: 99px;
-  border: 0.5px solid var(--border); color: var(--fg3);
-}
-.p-links { display: flex; gap: 16px; align-items: center; }
-.p-links a {
-  font-size: 9px; letter-spacing: 0.1em; color: var(--accent);
-  white-space: nowrap; transition: opacity 0.2s;
-}
-.p-links a:hover { opacity: 0.6; }
-
-/* ── Project cards (with figures) ── */
-.proj-card {
-  border: 0.5px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  background: var(--bg2);
-  transition: border-color 0.2s;
-}
-.proj-card:hover { border-color: rgba(255,255,255,0.16); }
-.proj-card-body { padding: 32px 36px 28px; }
-.pc-top { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; }
-.pc-year { font-size: 10px; color: var(--fg3); letter-spacing: 0.06em; }
-.pc-title { font-family: var(--serif); font-size: 22px; color: var(--fg); line-height: 1.15; margin-bottom: 12px; }
-.pc-desc { font-size: 13px; color: var(--fg2); line-height: 1.85; max-width: 720px; }
-.pc-tags { display: flex; gap: 6px; margin-top: 18px; flex-wrap: wrap; }
-.pc-tag {
-  font-size: 8px; letter-spacing: 0.1em;
-  padding: 2px 8px; border-radius: 99px;
-  border: 0.5px solid var(--border); color: var(--fg3);
-}
-.pc-links { display: flex; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
-.pc-links a {
-  font-size: 9px; letter-spacing: 0.1em; color: var(--accent);
-  white-space: nowrap; transition: opacity 0.2s;
-}
-.pc-links a:hover { opacity: 0.6; }
-
-/* figure below the text — capped width so it stays modest */
-.proj-fig {
-  border-top: 0.5px solid var(--border);
-  background: #fafafa;            /* light surface for the research figures */
-  padding: 24px 32px 18px;
-  text-align: center;
-}
-.proj-fig img { width: 100%; height: auto; display: block; margin: 0 auto; }
-.proj-fig.fig-wide   img { max-width: 680px; }   /* wide pipeline figure */
-.proj-fig.fig-medium img { max-width: 480px; }   /* landscape figures */
-.proj-fig.fig-narrow img { max-width: 420px; }   /* near-square / tall figures */
+.project-fig img { width: 100%; height: auto; display: block; }
 .fig-cap {
-  margin-top: 16px;
-  font-size: 8px; letter-spacing: 0.14em; color: #8c8aa0; line-height: 1.6;
+  font-size: 12px; color: var(--fg3); line-height: 1.6;
+  letter-spacing: 0.02em; margin-top: 10px;
 }
 
-.projects-more {
-  margin-top: 56px;
-  display: flex; align-items: center; gap: 14px;
+/* highlighted sub-link (toy MNIST example) */
+.subcard {
+  margin-top: 16px;
+  border: 1px solid var(--border); border-radius: 10px;
+  background: var(--bg2);
+  padding: 16px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  transition: border-color .15s;
 }
-.projects-more a {
-  font-size: 11px; letter-spacing: 0.12em; color: var(--fg);
-  display: flex; align-items: center; gap: 10px;
-  border: 0.5px solid var(--border);
-  padding: 14px 22px; border-radius: 8px;
-  transition: background 0.15s, border-color 0.15s;
+.subcard:hover { border-color: var(--accent); }
+.subcard-text { font-size: 14px; color: var(--fg2); line-height: 1.5; }
+.subcard-text strong { color: var(--fg); }
+.subcard a {
+  font-size: 14px; font-weight: 600; white-space: nowrap;
 }
-.projects-more a .arr { color: var(--accent); }
-.projects-more a:hover { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.18); }
+
+/* ── Contact ── */
+.contact p { color: var(--fg2); font-size: 16px; }
 
 /* ── Footer ── */
 footer {
-  padding: 56px 48px;
-  border-top: 0.5px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 24px;
+  border-top: 1px solid var(--border);
+  padding: 32px 0 56px;
+  color: var(--fg3); font-size: 13px;
 }
-.footer-name { font-family: var(--serif); font-size: 20px; font-style: italic; color: var(--fg2); }
-.footer-links { display: flex; gap: 28px; }
-.footer-links a { font-size: 10px; letter-spacing: 0.12em; color: var(--fg3); transition: color 0.2s; }
-.footer-links a:hover { color: var(--fg); }
-.footer-copy { font-size: 9px; color: var(--fg3); letter-spacing: 0.1em; width: 100%; }
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+footer a { color: var(--fg3); }
 
 /* ── Responsive ── */
-@media (max-width: 768px) {
-  nav { padding: 14px 24px; }
-  .nav-links { gap: 20px; }
-  #hero { padding: 0 6vw; }
-  .hero-scroll { left: 6vw; }
-  .hero-head { gap: 18px; }
-  .hero-photo { width: 72px; height: 72px; }
-  .section-wrap { padding: 0 24px; }
-  .about-grid { grid-template-columns: 1fr; gap: 56px; }
-  .project-row { grid-template-columns: 1fr; gap: 8px; }
-  .p-links { margin-top: 8px; }
-  .proj-fig { padding: 20px 16px 16px; }
-  footer { padding: 40px 24px; }
+@media (max-width: 560px) {
+  .nav-inner { padding: 12px 20px; }
+  .wrap { padding: 0 20px; }
+  header { padding: 48px 0 4px; }
+  .hero { gap: 20px; }
+  .hero-photo { width: 92px; height: 92px; }
+  .hero-name { font-size: 28px; }
 }
 </style>
 </head>
@@ -291,173 +205,194 @@ footer {
 
 <!-- ── Nav ── -->
 <nav>
-  <a href="#hero" class="nav-brand">AGD.</a>
-  <div class="nav-links">
-    <a href="#about">about</a>
-    <a href="#projects">projects</a>
-    <a href="projects.html">intro to adv attacks</a>
-    <a href="mailto:agarcia@crm.cat">contact</a>
+  <div class="nav-inner">
+    <a href="#top" class="nav-brand">Alexandre Garcia-Duran</a>
+    <div class="nav-links">
+      <a href="#summary">Summary</a>
+      <a href="#projects">Ongoing projects</a>
+      <a href="Alexandre_Garcia-Duran_CV.pdf" target="_blank" rel="noopener">CV</a>
+      <a href="https://scholar.google.com/citations?hl=ca&user=s0tErLcAAAAJ" target="_blank" rel="noopener">Scholar</a>
+      <a href="https://github.com/alexgarciaduran" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/alexandre-garcia-duran-068744194/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="#contact">Contact</a>
+    </div>
   </div>
 </nav>
 
-<!-- ── Hero ── -->
-<section id="hero">
-  <canvas id="hero-canvas"></canvas>
-  <div class="hero-inner">
-    <div class="hero-head">
+<!-- ── Header ── -->
+<header id="top">
+  <div class="wrap">
+    <div class="hero">
       <img class="hero-photo" src="figures/profile.jpg" alt="Alexandre Garcia-Duran">
-      <h1 class="hero-name">Alexandre<br><em>Garcia-Duran</em></h1>
+      <div>
+        <h1 class="hero-name">Alexandre Garcia-Duran</h1>
+        <p class="hero-affil">
+          PhD student ·
+          <a href="https://www.crm.cat/" target="_blank" rel="noopener">Centre de Recerca Matemàtica (CRM)</a>
+          &amp;
+          <a href="https://www.upc.edu/en" target="_blank" rel="noopener">Universitat Politècnica de Catalunya (UPC)</a>
+        </p>
+        <p class="hero-role">Computational neuroscience &amp; machine learning · Barcelona</p>
+      </div>
     </div>
-    <p class="hero-tagline">
-      I work at the intersection of <strong>machine learning</strong> and<br> <strong>computational neuroscience</strong>.<br>
-      Based in Barcelona.
+
+    <div class="linkrow">
+      <a href="Alexandre_Garcia-Duran_CV.pdf" target="_blank" rel="noopener">CV</a>
+      <a href="https://scholar.google.com/citations?hl=ca&user=s0tErLcAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+      <a href="https://github.com/alexgarciaduran" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/alexandre-garcia-duran-068744194/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:agarcia@crm.cat">Email</a>
+    </div>
+  </div>
+</header>
+
+<!-- ── Summary ── -->
+<section id="summary" class="summary">
+  <div class="wrap">
+    <h2 class="section-title">Summary</h2>
+    <p>
+      I use <strong>machine learning models</strong> to study how neural systems perceive —
+      bridging <strong>computational neuroscience</strong> and modern deep learning.
     </p>
-    <div class="hero-cta">
-      <a href="#projects"><span class="arr">→</span> projects</a>
-      <a href="mailto:agarcia@crm.cat"><span class="arr">→</span> get in touch</a>
-    </div>
-  </div>
-  <div class="hero-scroll">scroll</div>
-</section>
-
-<!-- ── About ── -->
-<section id="about">
-  <div class="section-wrap">
-    <p class="section-tag">ABOUT</p>
-    <div class="about-grid">
-      <div class="about-body">
-        <p>
-          I use <strong>machine learning models</strong> to study how neural systems
-          perceive — bridging <strong>computational neuroscience</strong> and
-          modern deep learning.
-        </p>
-        <p>
-          My work spans probabilistic graphical models, recurrent and convolutional neural networks, and
-          biologically constrained vision models, with a recent focus on
-          <strong>adversarial robustness</strong>: What breaks these networks, and what that
-          reveals about the computations they actually perform.
-        </p>
-        <p>
-          Currently a PhD student at <strong>Centre de Recerca Matemàtica (CRM)</strong> and <strong>Universitat Politècnica de Catalunya (UPC)</strong>, Barcelona. Supervised by Alexandre Hyafil (CRM) and Manuel Molano-Mazón (UPC).
-        </p>
-      </div>
-      <div class="about-aside">
-        <div class="about-links">
-          <a href="https://github.com/alexgarciaduran">github.com/alexgarciaduran</a>
-          <a href="https://scholar.google.com/citations?hl=ca&user=s0tErLcAAAAJ">google scholar</a>
-          <a href="Alexandre_Garcia-Duran_CV.pdf" target="_blank" rel="noopener">CV</a>
-        </div>
-      </div>
-    </div>
+    <p>
+      My work spans probabilistic graphical models, recurrent and convolutional neural networks,
+      and biologically constrained vision models, with a recent focus on
+      <strong>adversarial robustness</strong>: what breaks these networks, and what that reveals
+      about the computations they actually perform.
+    </p>
+    <p>
+      I am a PhD student at the <strong>Centre de Recerca Matemàtica (CRM)</strong> and
+      <strong>Universitat Politècnica de Catalunya (UPC)</strong> in Barcelona, supervised by
+      Alexandre Hyafil (CRM) and Manuel Molano-Mazón (UPC).
+    </p>
   </div>
 </section>
 
-<!-- ── Projects (preview) ── -->
+<!-- ── Ongoing projects ── -->
 <section id="projects">
-  <div class="section-wrap">
-    <p class="section-tag">PROJECTS</p>
+  <div class="wrap">
+    <h2 class="section-title">Ongoing projects</h2>
 
-    <!-- Fly visual system robustness -->
-    <div class="proj-card">
-      <div class="proj-card-body">
-        <div class="pc-top"><span class="pc-year">2026</span></div>
-        <div class="pc-title">Adversarial robustness of a connectome-constrained vision network</div>
-        <div class="pc-desc">
-          A deep network whose connectivity is fixed by the <em>Drosophila</em> connectome (Lappalainen et al. 2024)
-          modelling the fly's motion-detection circuit, is benchmarked against CNN and
-          optical-flow (RAFT) baselines on collision detection. Using a differentiable 3D rendering
-          pipeline, we probe whether wiring the brain's actual circuit into the network buys robustness,
-          and find the disruptions caused by adversarial attacks are similar to those produced by
-          classic reverse-phi motion illusions.
-        </div>
-        <div class="pc-tags">
-          <span class="pc-tag">CONNECTOME-CONSTRAINED NN</span>
-          <span class="pc-tag">ADVERSARIAL ATTACKS</span>
-          <span class="pc-tag">OPTICAL FLOW</span>
-        </div>
-        <div class="pc-links">
-          <a href="https://github.com/alexgarciaduran">Code ↗</a>
-          <a href="projects.html">Write-up →</a>
-        </div>
+    <!-- Project 1 — adversarial robustness -->
+    <div class="project">
+      <div class="project-year">2026</div>
+      <div class="project-title">Adversarial robustness of a connectome-constrained vision network</div>
+      <div class="project-desc">
+        A deep network whose connectivity is fixed by the <em>Drosophila</em> connectome
+        (Lappalainen et al. 2024), modelling the fly's motion-detection circuit, is benchmarked
+        against CNN and optical-flow (RAFT) baselines on collision detection. Using a differentiable
+        3D rendering pipeline, we probe whether wiring the brain's actual circuit into the network
+        buys robustness, and find that the disruptions caused by adversarial attacks resemble those
+        produced by classic reverse-phi motion illusions.
       </div>
-      <div class="proj-fig fig-wide">
+      <div class="project-tags">
+        <span class="project-tag">Connectome-constrained NN</span>
+        <span class="project-tag">Adversarial attacks</span>
+        <span class="project-tag">Optical flow</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/alexgarciaduran" target="_blank" rel="noopener">Code →</a>
+      </div>
+
+      <figure class="project-fig">
         <img src="figures/figure1_fly.png" alt="Differentiable adversarial-texture pipeline, fly looming geometry, and hit/miss trajectories">
-        <div class="fig-cap">DIFFERENTIABLE TEXTURE→RENDER→VISION→MODEL→DECODER PIPELINE · LOOMING GEOMETRY · HIT / MISS TRAJECTORIES</div>
-      </div>
+      </figure>
+      <figcaption class="fig-cap">
+        Differentiable texture → render → vision → model → decoder pipeline · looming geometry · hit / miss trajectories.
+      </figcaption>
+
+      <!-- opening section into the toy MNIST example -->
+      <a class="subcard" href="projects.html">
+        <span class="subcard-text">
+          <strong>New to adversarial attacks?</strong>
+          A short, self-contained toy example — FGSM, PGD &amp; adversarial training on MNIST.
+        </span>
+        <span>Open the intro →</span>
+      </a>
     </div>
 
-    <!-- Bistable perception model -->
-    <div class="proj-card">
-      <div class="proj-card-body">
-        <div class="pc-top"><span class="pc-year">2025–26</span></div>
-        <div class="pc-title">Bistable perception reveals a canonical computation in sensory processing</div>
-        <div class="pc-desc">
-          When a stimulus is ambiguous — a rotating cylinder, a Necker cube — perception spontaneously
-          alternates between two interpretations. We model this as inference over a probabilistic graphical
-          model with lateral coupling, implemented as a continuous-time RNN. We propose that lateral interactions in
-	  the visual hierarchy are dynamically modulated by features of the stimulus, so that normative
-          computations such as explaining away can be performed. Bistable perception, in this view, arises when these
-	  lateral interactions become very strong. This highlights their role in representing the statistical
-	  associations of the world.
-        </div>
-        <div class="pc-tags">
-          <span class="pc-tag">PROBABILISTIC GRAPHICAL MODELS</span>
-          <span class="pc-tag">RNN</span>
-          <span class="pc-tag">PERCEPTUAL INFERENCE</span>
-        </div>
-        <div class="pc-links">
-          <a href="https://github.com/alexgarciaduran/perceptual_bistability">Code ↗</a>
-        </div>
+    <!-- Project 2 — bistable perception -->
+    <div class="project">
+      <div class="project-year">2025–26</div>
+      <div class="project-title">Bistable perception reveals a canonical computation in sensory processing</div>
+      <div class="project-desc">
+        When a stimulus is ambiguous — a rotating cylinder, a Necker cube — perception spontaneously
+        alternates between two interpretations. We model this as inference over a probabilistic
+        graphical model with lateral coupling, implemented as a continuous-time RNN. We propose that
+        lateral interactions in the visual hierarchy are dynamically modulated by features of the
+        stimulus, so that normative computations such as explaining away can be performed. Bistable
+        perception, in this view, arises when these lateral interactions become very strong —
+        highlighting their role in representing the statistical associations of the world.
       </div>
-      <div class="proj-fig fig-medium">
+      <div class="project-tags">
+        <span class="project-tag">Probabilistic graphical models</span>
+        <span class="project-tag">RNN</span>
+        <span class="project-tag">Perceptual inference</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/alexgarciaduran/perceptual_bistability" target="_blank" rel="noopener">Code →</a>
+      </div>
+
+      <figure class="project-fig">
         <img src="figures/global_representation_stim_induced.png" alt="Hierarchical generative model: stimulus, local representation, stimulus-induced coupling, and global interpretation">
-        <div class="fig-cap">HIERARCHICAL GENERATIVE MODEL · STIMULUS-INDUCED LATERAL COUPLING SHAPES THE GLOBAL INTERPRETATION</div>
-      </div>
+      </figure>
+      <figcaption class="fig-cap">
+        Hierarchical generative model · stimulus-induced lateral coupling shapes the global interpretation.
+      </figcaption>
     </div>
 
-    <!-- Decision / movement paper -->
-    <div class="proj-card">
-      <div class="proj-card-body">
-        <div class="pc-top"><span class="pc-year">2024</span></div>
-        <div class="pc-title">Rapid, systematic updating of movement by accumulated decision evidence</div>
-        <div class="pc-desc">
-          Perceptual decisions keep evolving even while the body is already in motion. Combining
-          psychophysics in humans and rats with drift-diffusion modelling, we show that ongoing
-          evidence accumulation continuously re-shapes motor output — a tight, real-time coupling
-          between decision formation and movement. Published in <em>Nature Communications</em>.
-        </div>
-        <div class="pc-tags">
-          <span class="pc-tag">DRIFT-DIFFUSION</span>
-          <span class="pc-tag">DECISION MAKING</span>
-          <span class="pc-tag">GLMs</span>
-        </div>
-        <div class="pc-links">
-          <a href="https://www.nature.com/articles/s41467-024-53586-7">Paper ↗</a>
-          <a href="https://github.com/alexgarciaduran/rapid-updating-of-movement-by-evidence">Code ↗</a>
-        </div>
+    <!-- Project 3 — decision / movement -->
+    <div class="project">
+      <div class="project-year">2024</div>
+      <div class="project-title">Rapid, systematic updating of movement by accumulated decision evidence</div>
+      <div class="project-desc">
+        Perceptual decisions keep evolving even while the body is already in motion. Combining
+        psychophysics in humans and rats with drift-diffusion modelling, we show that ongoing
+        evidence accumulation continuously re-shapes motor output — a tight, real-time coupling
+        between decision formation and movement. Published in <em>Nature Communications</em>.
       </div>
-      <div class="proj-fig fig-narrow">
+      <div class="project-tags">
+        <span class="project-tag">Drift-diffusion</span>
+        <span class="project-tag">Decision making</span>
+        <span class="project-tag">GLMs</span>
+      </div>
+      <div class="project-links">
+        <a href="https://www.nature.com/articles/s41467-024-53586-7" target="_blank" rel="noopener">Paper →</a>
+        <a href="https://github.com/alexgarciaduran/rapid-updating-of-movement-by-evidence" target="_blank" rel="noopener">Code →</a>
+      </div>
+
+      <figure class="project-fig">
         <img src="figures/figure_movement.png" alt="Decision variable and motor trajectory model with change-of-mind, and neural-density-estimator likelihood">
-        <div class="fig-cap">DECISION VARIABLE + MOTOR TRAJECTORY WITH CHANGE-OF-MIND · SIMULATION-BASED INFERENCE OF THE LIKELIHOOD</div>
-      </div>
+      </figure>
+      <figcaption class="fig-cap">
+        Decision variable + motor trajectory with change-of-mind · simulation-based inference of the likelihood.
+      </figcaption>
     </div>
 
-    <div class="projects-more">
-      <a href="projects.html"><span class="arr">→</span> a short intro to adversarial attacks & training</a>
-    </div>
+  </div>
+</section>
 
+<!-- ── Contact ── -->
+<section id="contact" class="contact">
+  <div class="wrap">
+    <h2 class="section-title">Contact</h2>
+    <p>
+      <a href="mailto:agarcia@crm.cat">agarcia@crm.cat</a> ·
+      Centre de Recerca Matemàtica, Bellaterra (Barcelona)
+    </p>
   </div>
 </section>
 
 <!-- ── Footer ── -->
 <footer>
-  <span class="footer-name">Alexandre Garcia-Duran</span>
-  <div class="footer-links">
-    <a href="https://github.com/alexgarciaduran">github</a>
-    <a href="https://scholar.google.com/citations?hl=ca&user=s0tErLcAAAAJ">scholar</a>
-    <a href="mailto:agarcia@crm.cat">email</a>
+  <div class="wrap">
+    <span>© 2026 Alexandre Garcia-Duran · Barcelona</span>
+    <span>
+      <a href="https://github.com/alexgarciaduran" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://scholar.google.com/citations?hl=ca&user=s0tErLcAAAAJ" target="_blank" rel="noopener">Scholar</a> ·
+      <a href="https://www.linkedin.com/in/alexandre-garcia-duran-068744194/" target="_blank" rel="noopener">LinkedIn</a>
+    </span>
   </div>
-  <span class="footer-copy">© 2026 · Barcelona</span>
 </footer>
 
 </body>
