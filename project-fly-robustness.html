@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Adversarial robustness of a connectome-constrained vision network — Alexandre Garcia-Duran.">
+<title>Adversarial robustness of a connectome-constrained vision network — Alexandre Garcia-Duran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz@0,6..72;1,6..72&display=swap" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">Alexandre Garcia-Duran</a>
+    <div class="nav-links">
+      <a href="about.html">About</a>
+      <a href="projects.html" class="active">Ongoing projects</a>
+      <a href="Alexandre_Garcia-Duran_CV.pdf" target="_blank" rel="noopener">CV</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <p class="head-label">2026 · accepted as NeurIPS 2026 Spotlight</p>
+    <h1 class="head-title">Adversarial robustness of a connectome-constrained vision network</h1>
+  </div>
+</header>
+
+<section class="prose">
+  <div class="wrap">
+    <p>
+      A deep network whose connectivity is fixed by the <em>Drosophila</em> connectome
+      (Lappalainen et al. 2024), modelling the fly's motion-detection circuit, is benchmarked
+      against CNN and optical-flow (RAFT) baselines on collision detection. Using a differentiable
+      3D rendering pipeline, we probe whether wiring the brain's actual circuit into the network
+      buys robustness, and find that the disruptions caused by adversarial attacks resemble those
+      produced by classic reverse-phi motion illusions.
+    </p>
+
+    <div class="tags">
+      <span class="tag">Connectome-constrained NN</span>
+      <span class="tag">Adversarial attacks</span>
+      <span class="tag">Optical flow</span>
+    </div>
+
+    <div class="links">
+      <a href="https://github.com/alexgarciaduran" target="_blank" rel="noopener">Code →</a>
+    </div>
+
+    <figure class="fig">
+      <img src="figures/figure1_fly.png" alt="Differentiable adversarial-texture pipeline, fly looming geometry, and hit/miss trajectories">
+    </figure>
+    <p class="fig-cap">
+      Differentiable texture → render → vision → model → decoder pipeline · looming geometry · hit / miss trajectories.
+    </p>
+
+    <a class="subcard" href="adversarial-intro.html">
+      <span class="subcard-text">
+        <strong>New to adversarial attacks?</strong>
+        A short, self-contained toy example — FGSM, PGD &amp; adversarial training on MNIST.
+      </span>
+      <span class="cta">Open the intro →</span>
+    </a>
+  </div>
+</section>
+
+<div class="wrap">
+  <a href="projects.html" class="back-link">← Back to projects</a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Alexandre Garcia-Duran · Barcelona</span>
+    <span>
+      <a href="https://github.com/alexgarciaduran" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://scholar.google.com/citations?hl=ca&user=s0tErLcAAAAJ" target="_blank" rel="noopener">Scholar</a> ·
+      <a href="https://www.linkedin.com/in/alexandre-garcia-duran-068744194/" target="_blank" rel="noopener">LinkedIn</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

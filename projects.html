@@ -3,507 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="A short intro to adversarial attacks & training — FGSM, PGD and adversarial training on a tiny MNIST network.">
-<title>Intro to adversarial attacks — Alexandre Garcia-Duran</title>
+<meta name="description" content="Ongoing research projects of Alexandre Garcia-Duran.">
+<title>Ongoing projects — Alexandre Garcia-Duran</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz@0,6..72;1,6..72&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-/* ── Reset ── */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-
-:root {
-  --bg:      #ffffff;
-  --bg2:     #f6f6f4;
-  --fg:      #1a1a1a;
-  --fg2:     #565660;
-  --fg3:     #8a8a94;
-  --accent:  #3a5bd9;
-  --pink:    #d6336c;
-  --border:  #e7e7e2;
-  --sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --serif:   'Newsreader', Georgia, serif;
-  --mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
-  --max:     720px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg:     #0f0f12;
-    --bg2:    #17171b;
-    --fg:     #ececec;
-    --fg2:    #a5a5b0;
-    --fg3:    #6e6e78;
-    --accent: #8ea2ff;
-    --pink:   #ff85ab;
-    --border: #26262c;
-  }
-}
-
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--sans);
-  font-size: 16px;
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-}
-
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
-strong { font-weight: 600; color: var(--fg); }
-em { font-style: italic; }
-
-/* ── Nav ── */
-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-}
-.nav-inner {
-  max-width: var(--max); margin: 0 auto;
-  padding: 14px 28px;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 20px; flex-wrap: wrap;
-}
-.nav-brand { font-weight: 600; color: var(--fg); font-size: 15px; letter-spacing: -0.01em; }
-.nav-brand:hover { text-decoration: none; }
-.nav-links { display: flex; gap: 20px; flex-wrap: wrap; }
-.nav-links a { font-size: 13.5px; color: var(--fg2); font-weight: 500; }
-.nav-links a:hover { color: var(--accent); text-decoration: none; }
-.nav-links a.active { color: var(--accent); }
-
-/* ── Layout ── */
-.wrap { max-width: var(--max); margin: 0 auto; padding: 0 28px; }
-
-/* ── Page header ── */
-#page-head { padding: 64px 0 40px; }
-.head-label {
-  font-size: 12px; font-weight: 600; letter-spacing: 0.09em;
-  text-transform: uppercase; color: var(--fg3); margin-bottom: 16px;
-}
-.head-title {
-  font-family: var(--serif); font-size: 38px; font-weight: 500;
-  line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 20px;
-}
-.head-intro { font-size: 16px; color: var(--fg2); line-height: 1.75; max-width: 620px; }
-
-/* ── Project article ── */
-.proj { padding: 44px 0; border-top: 1px solid var(--border); }
-.proj-head { margin-bottom: 24px; }
-.proj-idx { font-family: var(--serif); font-size: 15px; color: var(--fg3); margin-bottom: 4px; }
-.proj-name {
-  font-family: var(--serif); font-size: 27px; font-weight: 500;
-  line-height: 1.15; letter-spacing: -0.01em; margin-bottom: 12px;
-}
-.proj-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.proj-tag {
-  font-size: 11px; letter-spacing: 0.04em; color: var(--fg3);
-  background: var(--bg2); border-radius: 5px; padding: 3px 9px;
-}
-
-.proj-body p { font-size: 16px; color: var(--fg2); line-height: 1.75; margin-bottom: 18px; }
-.proj-body p strong { color: var(--fg); }
-
-.proj-sub {
-  font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--fg3); margin: 34px 0 12px;
-}
-
-/* equation block */
-.eq {
-  font-family: var(--mono);
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 8px 8px 0;
-  padding: 16px 20px;
-  font-size: 14px; color: var(--fg);
-  overflow-x: auto; line-height: 1.7;
-  margin-bottom: 18px;
-}
-.eq .note { color: var(--fg3); font-size: 12.5px; }
-
-/* code block */
-.code-wrap {
-  border: 1px solid var(--border);
-  border-radius: 10px; overflow: hidden;
-  background: var(--bg2);
-  margin: 8px 0 18px;
-}
-.code-bar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 9px 16px; border-bottom: 1px solid var(--border);
-}
-.code-file { font-size: 12px; letter-spacing: 0.02em; color: var(--fg3); font-family: var(--mono); }
-.code-dots { display: flex; gap: 6px; }
-.code-dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--fg3); opacity: 0.35; }
-pre {
-  margin: 0; padding: 18px 20px; overflow-x: auto;
-  font-size: 13px; line-height: 1.7; font-family: var(--mono);
-  color: var(--fg); tab-size: 4;
-}
-pre .c  { color: var(--fg3); font-style: italic; }
-pre .k  { color: var(--pink); }
-pre .s  { color: #b5890a; }
-pre .f  { color: var(--accent); }
-pre .n  { color: #2a9d8f; }
-@media (prefers-color-scheme: dark) {
-  pre .s { color: #e2b341; }
-  pre .n { color: #56c4b4; }
-}
-
-.proj-links { display: flex; gap: 18px; margin-top: 28px; flex-wrap: wrap; }
-.proj-links a { font-size: 14px; font-weight: 500; }
-
-/* result figures */
-.result-fig {
-  margin: 28px 0 10px;
-  border: 1px solid var(--border); border-radius: 10px;
-  overflow: hidden; background: #fff;
-}
-.result-fig img { width: 100%; height: auto; display: block; }
-.result-cap { font-size: 13.5px; color: var(--fg2); line-height: 1.65; margin: 0 0 8px; }
-.result-cap strong { color: var(--fg); font-weight: 600; }
-
-/* takeaway callout */
-.callout {
-  margin-top: 28px;
-  border: 1px solid var(--border); border-left: 3px solid var(--accent);
-  border-radius: 0 10px 10px 0;
-  padding: 18px 22px; background: var(--bg2);
-}
-.callout .co-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: var(--fg3); margin-bottom: 8px; }
-.callout p { font-size: 15px; color: var(--fg2); line-height: 1.7; margin: 0; }
-
-.back-link {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 14px; font-weight: 500; margin: 40px 0;
-}
-
-/* ── Footer ── */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 32px 0 56px; color: var(--fg3); font-size: 13px;
-}
-footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-footer a { color: var(--fg3); }
-
-/* ── Responsive ── */
-@media (max-width: 560px) {
-  .nav-inner { padding: 12px 20px; }
-  .wrap { padding: 0 20px; }
-  #page-head { padding: 44px 0 28px; }
-  .head-title { font-size: 30px; }
-  pre { font-size: 12px; }
-}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz@0,6..72;1,6..72&display=swap" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
 </head>
 <body>
 
-<!-- ── Nav ── -->
 <nav>
   <div class="nav-inner">
     <a href="index.html" class="nav-brand">Alexandre Garcia-Duran</a>
     <div class="nav-links">
-      <a href="index.html#summary">Summary</a>
-      <a href="index.html#projects">Ongoing projects</a>
-      <a href="projects.html" class="active">Intro to adv. attacks</a>
-      <a href="index.html#contact">Contact</a>
+      <a href="about.html">About</a>
+      <a href="projects.html" class="active">Ongoing projects</a>
+      <a href="Alexandre_Garcia-Duran_CV.pdf" target="_blank" rel="noopener">CV</a>
+      <a href="contact.html">Contact</a>
     </div>
   </div>
 </nav>
 
-<!-- ── Page header ── -->
-<section id="page-head">
+<header class="page-head">
   <div class="wrap">
-    <p class="head-label">Toy ML example · MNIST</p>
-    <h1 class="head-title">A short intro to adversarial attacks &amp; training</h1>
-    <p class="head-intro">
-      A few small, self-contained experiments on the fragility of neural networks — how
-      imperceptible perturbations break a classifier, and how training against them buys back
-      robustness. Everything here runs on a single tiny network in a few minutes on CPU, so the
-      mechanics stay visible rather than buried under scale.
-    </p>
+    <p class="head-label">Ongoing projects</p>
+    <h1 class="head-title">What I am working on</h1>
+    <p class="head-intro">Click a title to open the project.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="plist">
+
+      <a class="pitem" href="project-fly-robustness.html">
+        <div class="pitem-year">2026</div>
+        <div class="pitem-title">Adversarial robustness of a connectome-constrained vision network</div>
+      </a>
+
+      <a class="pitem" href="project-bistability.html">
+        <div class="pitem-year">2025–26</div>
+        <div class="pitem-title">Bistable perception reveals a canonical computation in sensory processing</div>
+      </a>
+
+      <a class="pitem" href="project-movement.html">
+        <div class="pitem-year">2024</div>
+        <div class="pitem-title">Rapid, systematic updating of movement by accumulated decision evidence</div>
+      </a>
+
+    </div>
   </div>
 </section>
 
-<!-- ── Project 1 — FGSM / PGD ── -->
-<article class="proj">
-  <div class="wrap">
-    <div class="proj-head">
-      <div class="proj-idx">01</div>
-      <div class="proj-name">Fooling a small classifier: FGSM &amp; PGD</div>
-      <div class="proj-tags">
-        <span class="proj-tag">PyTorch</span>
-        <span class="proj-tag">Adversarial attacks</span>
-        <span class="proj-tag">MNIST</span>
-      </div>
-    </div>
-
-    <div class="proj-body">
-      <p>
-        A neural network can reach high accuracy and still be trivially brittle. An
-        <strong>adversarial example</strong> is an input nudged by a perturbation that is small
-        in some norm — invisible to a human — yet chosen to maximise the model's loss.
-        The classifier flips its prediction with high confidence.
-      </p>
-
-      <p>
-        The cheapest attack is the <strong>Fast Gradient Sign Method</strong> (Goodfellow et al., 2015).
-        It takes a single step in the direction that most increases the loss, then clips the
-        step size in the L∞ ball of radius ε:
-      </p>
-
-      <div class="eq">
-        x<sub>adv</sub> = x + ε · sign( ∇<sub>x</sub> L(f(x), y) )
-        <br><span class="note"># one gradient step w.r.t. the input, sign-of-gradient, magnitude ε</span>
-      </div>
-
-      <p>
-        <strong>Projected Gradient Descent</strong> (Madry et al., 2018) is FGSM run for several
-        small steps, re-projecting back into the ε-ball after each one. It is a much stronger
-        attack and the de-facto standard for evaluating robustness:
-      </p>
-
-      <div class="eq">
-        x<sup>(t+1)</sup> = Π<sub>‖·‖∞ ≤ ε</sub> ( x<sup>(t)</sup> + α · sign( ∇<sub>x</sub> L ) )
-        <br><span class="note"># α = step size, Π = clip back into the ε-ball, repeat for k steps</span>
-      </div>
-
-      <p class="proj-sub">Implementation</p>
-      <p>Defining the functions that we'll use.</p>
-
-      <div class="code-wrap">
-        <div class="code-bar">
-          <span class="code-file">attacks.py</span>
-          <div class="code-dots"><span></span><span></span><span></span></div>
-        </div>
-<pre><span class="k">import</span> torch
-<span class="k">import</span> torch.nn.functional <span class="k">as</span> F
-
-
-<span class="k">def</span> <span class="f">fgsm</span>(model, x, y, eps):
-    <span class="c"># single-step L-inf attack</span>
-    x = x.clone().detach().requires_grad_(<span class="k">True</span>)
-    loss = F.cross_entropy(model(x), y)
-    grad = torch.autograd.grad(loss, x)[<span class="n">0</span>]
-    x_adv = x + eps * grad.sign()
-    <span class="k">return</span> x_adv.clamp(<span class="n">0</span>, <span class="n">1</span>).detach()
-
-
-<span class="k">def</span> <span class="f">pgd</span>(model, x, y, eps, alpha, steps):
-    <span class="c"># iterative L-inf attack, projected back into the eps-ball</span>
-    x_adv = x.clone().detach()
-    x_adv += torch.empty_like(x_adv).uniform_(-eps, eps)  <span class="c"># random start</span>
-    x_adv = x_adv.clamp(<span class="n">0</span>, <span class="n">1</span>)
-    <span class="k">for</span> _ <span class="k">in</span> <span class="f">range</span>(steps):
-        x_adv = x_adv.detach().requires_grad_(<span class="k">True</span>)
-        loss = F.cross_entropy(model(x_adv), y)
-        grad = torch.autograd.grad(loss, x_adv)[<span class="n">0</span>]
-        x_adv = x_adv + alpha * grad.sign()
-        <span class="c"># project: keep within eps of the original x, stay valid pixels</span>
-        x_adv = torch.min(torch.max(x_adv, x - eps), x + eps)
-        x_adv = x_adv.clamp(<span class="n">0</span>, <span class="n">1</span>)
-    <span class="k">return</span> x_adv.detach()</pre>
-      </div>
-
-      <p class="proj-sub">The network under attack</p>
-      <p>Defining the network that we will study/attack. It's small (2 conv layers + linear head).</p>
-
-      <div class="code-wrap">
-        <div class="code-bar">
-          <span class="code-file">model.py</span>
-          <div class="code-dots"><span></span><span></span><span></span></div>
-        </div>
-<pre><span class="k">import</span> torch.nn <span class="k">as</span> nn
-
-<span class="c"># deliberately small: two conv layers + a linear head so that it can be run in CPU</span>
-<span class="k">class</span> <span class="f">SmallNet</span>(nn.Module):
-    <span class="k">def</span> <span class="f">__init__</span>(self):
-        <span class="f">super</span>().__init__()
-        self.net = nn.Sequential(
-            nn.Conv2d(<span class="n">1</span>, <span class="n">16</span>, <span class="n">3</span>, padding=<span class="n">1</span>), nn.ReLU(), nn.MaxPool2d(<span class="n">2</span>),
-            nn.Conv2d(<span class="n">16</span>, <span class="n">32</span>, <span class="n">3</span>, padding=<span class="n">1</span>), nn.ReLU(), nn.MaxPool2d(<span class="n">2</span>),
-            nn.Flatten(),
-            nn.Linear(<span class="n">32</span> * <span class="n">7</span> * <span class="n">7</span>, <span class="n">10</span>),
-        )
-
-    <span class="k">def</span> <span class="f">forward</span>(self, x):
-        <span class="k">return</span> self.net(x)</pre>
-      </div>
-
-      <p class="proj-sub">Evaluation loop</p>
-
-      <div class="code-wrap">
-        <div class="code-bar">
-          <span class="code-file">evaluate.py</span>
-          <div class="code-dots"><span></span><span></span><span></span></div>
-        </div>
-<pre><span class="k">import</span> torch
-<span class="k">from</span> attacks <span class="k">import</span> fgsm, pgd
-
-<span class="k">def</span> <span class="f">accuracy_under_attack</span>(model, loader, attack, **kw):
-    model.eval()
-    correct = total = <span class="n">0</span>
-    <span class="k">for</span> x, y <span class="k">in</span> loader:
-        x_adv = attack(model, x, y, **kw) <span class="k">if</span> attack <span class="k">else</span> x
-        pred = model(x_adv).argmax(<span class="n">1</span>)
-        correct += (pred == y).sum().item()
-        total   += y.size(<span class="n">0</span>)
-    <span class="k">return</span> correct / total
-
-<span class="c"># eps = 0.3 on [0,1] pixels is the standard MNIST threat model</span>
-clean = accuracy_under_attack(model, test, <span class="k">None</span>)
-fgsm_acc = accuracy_under_attack(model, test, fgsm, eps=<span class="n">0.3</span>)
-pgd_acc  = accuracy_under_attack(model, test, pgd,
-                                 eps=<span class="n">0.3</span>, alpha=<span class="n">0.01</span>, steps=<span class="n">40</span>)
-<span class="f">print</span>(<span class="s">f"clean {clean:.2f} | fgsm {fgsm_acc:.2f} | pgd {pgd_acc:.2f}"</span>)</pre>
-      </div>
-
-      <p class="proj-sub">Results — running it</p>
-
-      <div class="result-fig">
-        <img src="figures/fig_fgsm_pgd.png" alt="Accuracy of the standard model vs perturbation budget for FGSM and PGD">
-      </div>
-      <p class="result-cap">
-        <strong>SmallNet trained on MNIST, then attacked at increasing ε.</strong>
-        Both attacks degrade accuracy as the budget grows, but PGD — taking 20 steps inside the
-        ε-ball instead of FGSM's single step — finds far stronger perturbations. At ε = 0.3 the
-        model holds <strong>3.8% under FGSM</strong> but drops to <strong>0% under PGD</strong>.
-      </p>
-
-      <div class="result-fig">
-        <img src="figures/fig_adv_grid.png" alt="Clean digits, the added perturbation, and the resulting adversarial images with flipped predictions">
-      </div>
-      <p class="result-cap">
-        <strong>What the attack actually does.</strong> Top: clean test digits (true label in green).
-        Middle: the perturbation δ found by PGD at a small budget (ε = 0.15, red/blue ≈ ±0.15 per pixel).
-        Bottom: the adversarial image x + δ — visually still the same digit to a human, but the model now
-        reads it as the pink label. The perturbation is structured, not random: it traces the strokes that
-        most change the decision.
-      </p>
-
-      <div class="callout">
-        <div class="co-label">WHAT YOU SEE</div>
-        <p>
-          A standard-trained SmallNet reaches <strong>97.7% clean</strong> accuracy but
-          collapses to <strong>~4% under FGSM</strong> and to <strong>0% under PGD</strong>
-          at ε = 0.3. The perturbation needed to do this is, to the eye, indistinguishable from
-          the original digit — the model's decision surface is far more jagged than its accuracy suggests.
-        </p>
-      </div>
-
-      <div class="proj-links">
-        <a href="https://github.com/alexgarciaduran/adversarial_minst_example" target="_blank" rel="noopener">Code ↗</a>
-        <a href="https://arxiv.org/abs/1412.6572" target="_blank" rel="noopener">FGSM paper ↗</a>
-        <a href="https://arxiv.org/abs/1706.06083" target="_blank" rel="noopener">PGD paper ↗</a>
-      </div>
-    </div>
-  </div>
-</article>
-
-<!-- ── Project 2 — adversarial training ── -->
-<article class="proj">
-  <div class="wrap">
-    <div class="proj-head">
-      <div class="proj-idx">02</div>
-      <div class="proj-name">Buying back robustness: adversarial training</div>
-      <div class="proj-tags">
-        <span class="proj-tag">PyTorch</span>
-        <span class="proj-tag">Robust training</span>
-        <span class="proj-tag">Min-max</span>
-      </div>
-    </div>
-
-    <div class="proj-body">
-      <p>
-        If small perturbations break the model, the natural fix is to train on them.
-        <strong>Adversarial training</strong> reframes learning as a saddle-point problem:
-        minimise the loss against the <em>worst-case</em> perturbation the attacker can find
-        inside the ε-ball.
-      </p>
-
-      <div class="eq">
-        min<sub>θ</sub>  𝔼<sub>(x,y)</sub> [ max<sub>‖δ‖∞ ≤ ε</sub> L( f<sub>θ</sub>(x + δ), y ) ]
-        <br><span class="note"># inner max ≈ a PGD attack; outer min = ordinary SGD on the attacked batch</span>
-      </div>
-
-      <p>
-        The inner maximisation is approximated by running PGD on each batch before the
-        gradient update — so every training step the model learns on examples specifically
-        crafted to fool its <em>current</em> weights.
-      </p>
-
-      <p class="proj-sub">Training step</p>
-
-      <div class="code-wrap">
-        <div class="code-bar">
-          <span class="code-file">train_robust.py</span>
-          <div class="code-dots"><span></span><span></span><span></span></div>
-        </div>
-<pre><span class="k">import</span> torch
-<span class="k">import</span> torch.nn.functional <span class="k">as</span> F
-<span class="k">from</span> attacks <span class="k">import</span> pgd
-
-<span class="k">def</span> <span class="f">train_epoch</span>(model, loader, opt, eps=<span class="n">0.3</span>,
-                alpha=<span class="n">0.01</span>, steps=<span class="n">10</span>):
-    model.train()
-    <span class="k">for</span> x, y <span class="k">in</span> loader:
-        <span class="c"># inner max: craft adversarial batch vs. current weights</span>
-        x_adv = pgd(model, x, y, eps, alpha, steps)
-        <span class="c"># outer min: ordinary SGD step on the attacked batch</span>
-        opt.zero_grad()
-        loss = F.cross_entropy(model(x_adv), y)
-        loss.backward()
-        opt.step()</pre>
-      </div>
-
-      <p>
-        That is the whole idea — swap clean batches for PGD-attacked batches and train normally.
-        It is expensive (each step now contains a k-step inner loop) but it is the most reliable
-        defense that has survived adaptive evaluation.
-      </p>
-
-      <p class="proj-sub">Results — standard vs. robust</p>
-
-      <div class="result-fig">
-        <img src="figures/fig_robustness.png" alt="PGD accuracy vs epsilon for standard and adversarially-trained models">
-      </div>
-      <p class="result-cap">
-        <strong>Same network, same PGD attack, two training recipes.</strong> The standard model
-        (pink) falls off a cliff — by ε = 0.15 it is already near chance. The adversarially-trained
-        model (teal) degrades gracefully, still classifying <strong>65% correctly at ε = 0.3</strong>,
-        the very budget that drives the standard model to 0%.
-      </p>
-
-      <div class="callout">
-        <div class="co-label">THE TRADE-OFF</div>
-        <p>
-          Robustness is not free, but here it is cheap: the PGD-trained SmallNet gives up only
-          <strong>~2 points of clean accuracy</strong> (97.7% → 95.5%) while going from
-          <strong>0% to 65% under PGD</strong> at ε = 0.3. The decision boundary becomes smoother
-          and the worst-case curvature around each example shrinks — which connects directly to the
-          questions about adversarial fragility in connectome-constrained vision models I work on.
-        </p>
-      </div>
-
-      <div class="proj-links">
-        <a href="https://github.com/alexgarciaduran/adversarial_minst_example" target="_blank" rel="noopener">Code ↗</a>
-        <a href="https://arxiv.org/abs/1706.06083" target="_blank" rel="noopener">Madry et al. ↗</a>
-      </div>
-    </div>
-  </div>
-</article>
-
 <div class="wrap">
-  <a href="index.html#projects" class="back-link">← Back to projects</a>
+  <a href="index.html" class="back-link">← Back to home</a>
 </div>
 
-<!-- ── Footer ── -->
 <footer>
   <div class="wrap">
     <span>© 2026 Alexandre Garcia-Duran · Barcelona</span>
