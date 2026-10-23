@@ -3,6 +3,7 @@
 html { scroll-behavior: smooth; }
 
 :root {
+  color-scheme: light dark;
   --bg:      #ffffff;
   --bg2:     #f6f6f4;
   --fg:      #1a1a1a;
